@@ -21,13 +21,13 @@ cj = cookielib.CookieJar()
 br.set_cookiejar(cj)
 #Browser options
 br.set_handle_equiv(True)
-##br.set_handle_gzip(True)
+br.set_handle_gzip(True)
 br.set_handle_redirect(True)
 br.set_handle_referer(True)
 br.set_handle_robots(False)
 
 #Follows refresh 0 but not hangs on refresh > 0
-br.set_handle_refresh(mechanize.HTTPRefreshProcessor(), max_time=1)
+br.set_handle_refresh(mechanize.HTTPRefreshProcessor(),max_time=3)
 #User-Agent
 br.addheaders = [("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:29.0) Gecko/20100101 Firefox/29.0")]
 
@@ -77,7 +77,7 @@ def CQ360(ssc360_type):
     now_time=time.localtime()
     number = ''
     try:
-        r = br.open(url)
+        r = br.open(url,timeout=300)
     except Exception,err:
         error= str(err)
         print 'CQ360',error
@@ -86,6 +86,7 @@ def CQ360(ssc360_type):
         return '0','0','0'
     else:
         ssc_html = r.read().decode('gb2312')
+        #ssc_html = r.read()
         #show the html title
         print '360时时彩',url
         #print br.title()
@@ -93,7 +94,7 @@ def CQ360(ssc360_type):
         d = etree.HTML(ssc_html)
         #Draw DateNO
         draw_date_tmp = ''.join(d.xpath(u'/html/body/div[1]/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/h3/em/text()'))
-        draw_date=str(now_time.tm_year)+draw_date_tmp[0:4]+'-'+draw_date_tmp[4:7]
+        draw_date=str(now_time.tm_year)+draw_date_tmp
         #drow Number
         number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[1]/text()'))+','
         number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[2]/text()'))+','

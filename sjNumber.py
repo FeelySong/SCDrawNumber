@@ -163,14 +163,14 @@ def main():
         p_360yun11.join(timeout=10)
 
     #重庆时时彩
-    ssc_type='cqssc'
-    db_ssc_type='1'
-    jobs=[]
-    for i in range(1):
-        p_cq=multiprocessing.Process(name='CQSSC',target=ssc_drawnumber,args=(ssc_type,db_ssc_type,))
-        jobs.append(p_cq)
-        p_cq.start()
-        p_cq.join(timeout=10)
+    # ssc_type='cqssc'
+    # db_ssc_type='1'
+    # jobs=[]
+    # for i in range(1):
+    #     p_cq=multiprocessing.Process(name='CQSSC',target=ssc_drawnumber,args=(ssc_type,db_ssc_type,))
+    #     jobs.append(p_cq)
+    #     p_cq.start()
+    #     p_cq.join(timeout=10)
 
 
 if __name__ == "__main__":

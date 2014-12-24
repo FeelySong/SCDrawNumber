@@ -3,7 +3,7 @@ import conn
 import mysql.connector
 from datetime import datetime
 
-cnx=mysql.connector.connect(user='root',password='shl850325',host='54.254.174.234',database='shijue',charset='utf8')
+cnx=mysql.connector.connect(user='root',password='shl850325',host='littlemonk.net',database='shijue',charset='utf8')
 
 cursor=cnx.cursor()
 
