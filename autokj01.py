@@ -527,19 +527,19 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
                     conn.cursor.execute("update ssc_bills set zt="+signa+",prize="+"rates*times"+" where id="+row['id'])
                 else:
                     conn.cursor.execute("update ssc_bills set zt="+signb+",prize=0 where id="+row['id'])
-				
-					
-		else if(mid=="29" or mid=="67" or mid=="105" or mid=="143" or mid=="331")://后二直选 331p3
-			if(row['type']=="input")://单式
-				cs=n4.n5
-				if(strpos(row['codes'],cs)===false):
-					conn.cursor.execute("update ssc_bills set zt=".signb.",prize=0 where id='".row['id']."'")
-				else:
-					conn.cursor.execute("update ssc_bills set zt=".signa.",prize=rates*times where id='".row['id']."'")
-				
-			else if(row['type']=="digital")://复式
-				stra=explode("|",row['codes'])
-				nums=0
+        #后二直选 331p3
+        elif(mid=="29" or mid=="67" or mid=="105" or mid=="143" or mid=="331"):
+            #单式
+            if(row['type']=="input"):
+                cs=n4+n5
+                if(cs.find(row['codes'])==-1):
+                    conn.cursor.execute("update ssc_bills set zt="+signb+",prize=0 where id="+row['id'])
+                else:
+                    conn.cursor.execute("update ssc_bills set zt="+signa+",prize="+"rates*times"+" where id="+row['id'])
+            #复式
+            elif(row['type']=="digital"):
+                stra=row['codes'].split('&')
+                nums=0
 				for (i=0 i<count(stra) i++) :
 					strb=explode("&",stra[i])
 					for (ii=0 ii<count(strb) ii++) :

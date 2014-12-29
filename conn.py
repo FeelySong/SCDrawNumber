@@ -3,7 +3,7 @@
 
 import mysql.connector
 from datetime import datetime
-import time
+import logging
 
 cnx=mysql.connector.connect(user='root',password='shl850325',host='littlemonk.net',database='shijue',charset='utf8')
 
@@ -14,6 +14,9 @@ query='select * from ssc_set where lid=1'
 cursor.execute(query)
 
 result=cursor.fetchone()
+
+logging.basicConfig(filename='/tmp/kaijiang.log',level=logging.INFO)
+logging.basicConfig(filename='/tmp/errkj.log',level=logging.ERROR)
 
 def kjdata(t2,cid,t1,t3):
         if(t2!=""):
@@ -184,9 +187,11 @@ def php(n1,n2,n3,n4,n5,cid,t1,zt):
     # open process
     p = subprocess.Popen([para1+para], shell=True,stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True)
 
+    print p.stdout.read()
     # read output
     o = p.communicate()[0]
-
+    print 'exe php:'+o
+    logging.info('Execute PaiJiang Programe:'+o)
     # kill process
     try:
         os.kill(p.pid, os.signal.SIGTERM)

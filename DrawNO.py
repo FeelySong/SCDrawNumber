@@ -16,7 +16,12 @@ import time
 socket.setdefaulttimeout(300)
 
 #Browser
-br = mechanize.Browser()
+
+class NoHistory(object):
+  def add(self, *a, **k): pass
+  def clear(self): pass
+
+br = mechanize.Browser(history=NoHistory())
 cj = cookielib.CookieJar()
 br.set_cookiejar(cj)
 #Browser options
@@ -33,6 +38,7 @@ br.addheaders = [("User-Agent", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv
 
 logging.basicConfig(filename='/tmp/kaijiang.log',level=logging.INFO)
 logging.basicConfig(filename='/tmp/errkj.log',level=logging.ERROR)
+
 
 def drawnumber(ssc_type):
     #Open website
