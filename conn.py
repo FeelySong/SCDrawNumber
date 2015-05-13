@@ -1,9 +1,8 @@
 # coding=utf-8
-
-
 import mysql.connector
 from datetime import datetime
 import logging
+import autokj
 
 cnx=mysql.connector.connect(user='root',password='shl850325',host='littlemonk.net',database='shijue',charset='utf8')
 
@@ -84,8 +83,15 @@ def kjdata(t2,cid,t1,t3):
                     print err
                 #t1=t1[2:]
                 #print n1,n2,n3,n4,n5,cid,t1
+
                 zt = '1'
-                php(str(n1),str(n2),str(n3),str(n4),str(n5),str(cid),str(t1),zt)
+                # php(str(n1),str(n2),str(n3),str(n4),str(n5),str(cid),str(t1),zt)
+
+                # zt = '0'
+                # print str(n1),str(n2),str(n3),str(n4),str(n5),str(cid),str(t1),zt
+                # autokj.autokj(str(n1),str(n2),str(n3),str(n4),str(n5),str(cid),str(t1),zt)
+                CallSP(str(n1),str(n2),str(n3),str(n4),str(n5),str(cid),str(t1),zt)
+
         else:
             if(rowa[10]!='1'):
                 if(rowa[13]>5):
@@ -95,6 +101,10 @@ def kjdata(t2,cid,t1,t3):
                     cursor.execute(sqls)
         return t1
 
+def CallSP(n1,n2,n3,n4,n5,lid,issue,sign):
+        cursor.callproc('PaiJiang',(n1,n2,n3,n4,n5,lid,issue,sign,))
+        # cursor.close()
+        # cnx.close()
 #匹配彩种名称
 def cidname(x):
     return {

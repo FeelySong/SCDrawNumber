@@ -1,23 +1,18 @@
 # coding=utf-8
+
 import conn
 import mysql.connector
 from datetime import datetime
 
 cnx=mysql.connector.connect(user='root',password='shl850325',host='littlemonk.net',database='shijue',charset='utf8')
-
-cursor=cnx.cursor()
+cursor=cnx.cursor(dictionary=True)
 
 query='select * from ssc_set where lid=1'
-
 cursor.execute(query)
-
 result=cursor.fetchone()
 
-print result
-
-na=''
-nb=''
-
+na=[]
+nb=[]
 def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
     if(sign==1):
         signa=1
@@ -25,26 +20,27 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
     else:
         signa=0
         signb=0
-
     if(lid==1 or lid==2 or lid==3 or lid==4 or lid==10):
         kjcode=n1+n2+n3+n4+n5
     elif (lid==5 or lid==9):
-        kjcode=n1.n2.n3
+        kjcode=n1+n2+n3
     elif (lid==6 or lid==7 or lid==8 or lid==11):
         kjcode=n1+" "+n2+" "+n3+" "+n4+" "+n5
 
-    na[0]=n1
-    na[1]=n2
-    na[2]=n3
-    na[3]=n4
-    na[4]=n5
+    na.append(n1)
+    na.append(n2)
+    na.append(n3)
+    na.append(n4)
+    na.append(n5)
 
-    nb[0]=n1
-    nb[1]=n2
-    nb[2]=n3
-    nb[3]=n4
-    nb[4]=n5
+    nb.append(n1)
+    nb.append(n2)
+    nb.append(n3)
+    nb.append(n4)
+    nb.append(n5)
 
+    i=0
+    j=0
     for i in range(0,5):
         for j in range (4,j>i,-1):
             if (nb[j]<nb[j-1]):
@@ -55,6 +51,7 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
     conn.cursor.execute (sql)
     #此处注意是赋值，还是比较
     row = conn.cursor.fetchall()
+    print row
     while (row):
         uid_fx=row['uid']
         regup_fx=row['regup']
@@ -100,7 +97,7 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
             for i in range(0,len(stra)):
                 strb=stra[i].split('&')
                 for ii in range(0,len(strb)):
-                    if(strb[ii]==na[i]):
+                    if(strb[ii]==na[i+1]):
                         nums=nums+1
             if(nums==4):
                 conn.cursor.execute("update ssc_bills set zt="+signa+",prize=rates*times where id="+row['id'])
@@ -125,7 +122,7 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
                 for ii in range(0,len(strb)):
                     if(strb[ii]==na[i]):
                         nums=nums+1
-            if(nums==4):
+            if(nums==3):
                 conn.cursor.execute("update ssc_bills set zt="+signa+",prize=rates*times where id="+row['id'])
                 print '1'
             else:
@@ -539,7 +536,8 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
                 sqla = "select * from ssc_record order by id desc limit 1"
                 rsa = conn.cursor.execute(sqla)
                 rowa = conn.cursor.fetchall(rsa)
-                dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
+                #dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
+                dan1=base_convert(rowa['id']+1,10,36).upper()
                 lmoney = Get_mmoney(rows['uid'])+rows['prize']
                 #sqla="insert into ssc_record set lotteryid="+rows['lotteryid']+",lottery="+rows['lottery']+", dan="+dan1+", dan1="+rows['dan']+", dan2="+rows['dan1']+", uid="+rows['uid']+", username="+rows['username']+", issue="+rows['issue']+", types='12', mid="+rows['mid']+", mode="+rows['mode']+", smoney="+rows['prize']+",leftmoney="+lmoney+", cont="+rows['cont']+", regtop="+rows['regtop']+', regup='".rows['regup']."', regfrom='".rows['regfrom']."', adddate='".date("Y-m-d H:i:s")."'"
                 sqla="insert into ssc_record set lotteryid="+rows['lotteryid']+",lottery="+rows['lottery']+", dan="+dan1+", dan1="+rows['dan']+", dan2="+rows['dan1']+", uid="+rows['uid']+", username="+rows['username']+", issue="+rows['issue']+", types='12', mid="+rows['mid']+", mode="+rows['mode']+", smoney="+rows['prize']+",leftmoney="+lmoney+", cont="+rows['cont']+", regtop="+rows['regtop']+", regup="+rows['regup']+", regfrom="+rows['regfrom']+", adddate="+str(datetime())
@@ -565,7 +563,8 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
                         rsa = conn.cursor.execute(sqla)
                         rowa = conn.cursor.execute(rsa)
                         #追号返款
-                        dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
+                        #dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
+                        dan1=base_convert(rowa['id']+1,10,36).upper()
                         #sqla="insert into ssc_record set lotteryid='".rows['lotteryid']."', lottery='".rows['lottery']."', dan='".dan1."', dan2='".rows['dan']."', uid='".rows['uid']."', username='".rows['username']."', issue='".rows['issue']."', types='10', mid='".rows['mid']."', mode='".rows['mode']."', smoney=".ttm.",leftmoney=".(lmoney+ttm).", cont='".rows['cont']."', regtop='".rows['regtop']."', regup='".rows['regup']."', regfrom='".rows['regfrom']."', adddate='".date("Y-m-d H:i:s")."'"
                         sqla="insert into ssc_record set lotteryid="+rows['lotteryid']+", lottery="+str(rows['lottery'])+", dan="+str(dan1)+", dan2="+str(rows['dan'])+", uid="+str(row['uid'])+", username="+str(rows['username'])+", issue="+str(rows['issue'])+", types=10, mid="+str(rows['mid'])+", mode="+str(rows['mode'])+", smoney=ttm, leftmoney=lmoney+ttm, cont="+str(rows['cont'])+", regtop="+rows['regtop']+", regup="+rows['regup']+", regfrom="+rows['regfrom']+", adddate="+str(datetime)
                         exe=conn.cursor.execute(sqla)
@@ -610,7 +609,8 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
             rsa = conn.cursor.execute(sqla)
             rowa =conn.cursor.fetchall(rsa)
             #追号返款
-            dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36).upper()))
+            #dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36).upper()))
+            dan1 = base_convert(rowa['id']+1,10,36).upper()
             sqla="insert into ssc_record set lotteryid="+rowb['lotteryid']+", lottery="+str(rowb['lottery'])+", dan="+str(dan1)+", dan2="+str(rowb['dan'])+"', uid="+rowb['uid']+", username="+str(rowb['username'])+", issue="+rowb['issue']+", types='10', mid="+str(rowb['mid'])+", mode="+str(rowb['mode'])+", smoney="+str(rowb['money'])+", leftmoney="+str(lmoney+rowb['money'])+", cont="+str(rowb['cont'])+", regtop="+str(rowb['regtop'])+"', regup="+str(rowb['regup'])+"', regfrom="+str(rowb['regfrom'])+", adddate='"+datetime.now()
             exe=conn.cursor.execute(sqla)
 
@@ -618,8 +618,8 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
             rsa = conn.cursor.execute(sqla)
             rowa =conn.cursor.fetchone(rsa)
             #转注单
-            dan2 = sprintf("%06s",(base_convert(rowa['id']+1,10,36)).upper())
-                        
+            #dan2 = sprintf("%06s",(base_convert(rowa['id']+1,10,36)).upper())
+            dan2=base_convert(rowa['id']+1,10,36).upper()
             sqla="INSERT INTO ssc_bills set lotteryid="+str(rowb['lotteryid'])+", lottery="+str(rowb['lottery'])+", dan="+str(dan2)+", dan1="+str(rowb['dan'])+", uid="+rowb['uid']+", username="+rowb['username']+", issue="+rowb['issue']+", type="+rowb['type']+", mid="+rowb['mid']+", codes="+str(rowb['codes'])+", nums="+str(rowb['nums'])+", times="+str(rowb['times'])+", money="+str(rowb['money'])+"' mode="+str(rowb['mode'])+", rates="+str(rowb['rates'])+", point="+str(rowb['point'])+", cont="+str(rowb['cont'])+", regtop="+str(rowb['regtop'])+", regup="+rowb['regup']+", regfrom="+str(rowb['regfrom'])+", userip="+str(rowb['userip'])+", adddate="+datetime("Y-m-d H:i:s")+", canceldead="+str(rowb['canceldead'])+", autostop="+str(rowb['autostop'])
             exe=conn.cursor.execute(sqla)
             
@@ -630,19 +630,21 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
             rsa = conn.cursor.execute(sqla)
             rowa =conn.cursor.fetchall(rsa)
             #投注扣款
-            dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
-            sqla="insert into ssc_record set lotteryid="+str(rowb['lotteryid'])+", lottery="+str(rowb['lottery'])+", dan="+str(dan1)+", dan1="+str(dan2)+", dan2="+str(rowb['dan'])+", uid="+rowb['uid']+", username="+str(rowb['username'])+", issue="+str(rowb['issue'])+"', types='7', mid="+str(rowb['mid'])+"', mode="+str(rowb['mode'])+", zmoney="+str(rowb['money'])+",leftmoney="+str(lmoney)+", cont="+str(rowb['cont'])+", regtop="+str(rowb['regtop'])+", regup="+str(rowb['regup'])+", regfrom="+str(rowb['regfrom'])+"', adddate='"+datetime.now("Y-m-d H:i:s")
+            #dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
+            dan1=base_convert(rowa['id']+1,10,36).upper()
+            sqla="insert into ssc_record set lotteryid="+str(rowb['lotteryid'])+", lottery="+str(rowb['lottery'])+", dan="+str(dan1)+", dan1="+str(dan2)+", dan2="+str(rowb['dan'])+", uid="+rowb['uid']+", username="+str(rowb['username'])+", issue="+str(rowb['issue'])+"', types='7', mid="+str(rowb['mid'])+"', mode="+str(rowb['mode'])+", zmoney="+str(rowb['money'])+",leftmoney="+str(lmoney)+", cont="+str(rowb['cont'])+", regtop="+str(rowb['regtop'])+", regup="+str(rowb['regup'])+", regfrom="+str(rowb['regfrom'])+", adddate='"+datetime.now("Y-m-d H:i:s")
             exe=conn.cursor.execute(sqla)
             if(spoint!="0"):
                 sstrp=spoint*100
                 sqla = "select * from ssc_record order by id desc limit 1"
                 rsa = conn.cursor.execute(sqla)
                 rowa =conn.cursor.fetchall(rsa)
-                dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
-                sqla="insert into ssc_record set lotteryid="+str(rowb['lotteryid'])+", lottery="+str(rowb['lottery'])+"', dan="+str(dan1)+"', dan1="+str(dan2)+"', dan2='".rowb['dan']."', uid='".rowb['uid']."', username='".rowb['username']."', issue='".rowb['issue']."', types='11', mid='".rowb['mid']."', mode='".rowb['mode']."', smoney=".rowb['money']*spoint.",leftmoney=".(lmoney+rowb['money']*spoint).", cont='".rowb['cont']."', regtop='".rowb['regtop']."', regup='".rowb['regup']."', regfrom='".rowb['regfrom']."', adddate='".date("Y-m-d H:i:s")."'"
+                #dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
+                dan1=base_convert(rowa['id']+1,10,36).upper()
+                sqla="insert into ssc_record set lotteryid="+str(rowb['lotteryid'])+", lottery="+str(rowb['lottery'])+", dan="+str(dan1)+", dan1="+str(dan2)+", dan2="+str(rowb['dan'])+", uid="+rowb['uid']+", username="+rowb['username']+", issue="+str(rowb['issue'])+", types='11', mid="+str(rowb['mid'])+", mode="+str(rowb['mode'])+", smoney="+str(rowb['money']*spoint)+",leftmoney="+str(lmoney+rowb['money']*spoint)+", cont="+str(rowb['cont'])+", regtop="+str(rowb['regtop'])+", regup="+str(rowb['regup'])+", regfrom="+str(rowb['regfrom'])+", adddate="+datetime.now("Y-m-d H:i:s")
                 exe=conn.cursor.execute(sqla)
 
-                sqla="update ssc_member set leftmoney=".(lmoney+rowb['money']*spoint)." where username='".rowb['username']."'" 
+                sqla="update ssc_member set leftmoney="+str((lmoney+rowb['money']*spoint))+" where username='"+str(rowb['username'])
                 exe=conn.cursor.execute(sqla)
 
                 #上级返点
@@ -663,8 +665,9 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
                             sqla = "select * from ssc_record order by id desc limit 1"
                             rsa = conn.cursor.execute(sqla)
                             rowa =conn.cursor.fetchall(rsa)
-                            dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
-                            sqla="insert into ssc_record set lotteryid='".rowb['lotteryid']."', lottery='".rowb['lottery']."', dan='".dan1."', dan1='".dan2."', dan2='".rowb['dan']."', uid='".Get_memid(susername)."', username='".susername."', issue='".rowb['issue']."', types='11', mid='".rowb['mid']."', mode='".rowb['mode']."', smoney=".(rowb['money']*(sstrb[1]-sstrp)/100).",leftmoney=".(Get_mmoney(susername)+rowb['money']*(sstrb[1]-sstrp)/100).", cont='".rowb['cont']."', regtop='".rowb['regtop']."', regup='".rowb['regup']."', regfrom='".rowb['regfrom']."', adddate='".date("Y-m-d H:i:s")."'"
+                            #dan1 = sprintf("%07s",(base_convert(rowa['id']+1,10,36)).upper())
+                            dan1=base_convert(rowa['id']+1,10,36).upper()
+                            sqla="insert into ssc_record set lotteryid='"+rowb['lotteryid']+"', lottery='".rowb['lottery']+"', dan='"+str(dan1)+"', dan1='"+str(dan2)+"', dan2='"+str(rowb['dan'])+"', uid="+str(Get_memid(susername))+", username="+str(susername)+", issue="+str(rowb['issue'])+", types='11', mid="+str(rowb['mid'])+", mode="+str(rowb['mode'])+", smoney="+str((rowb['money']*(sstrb[1]-sstrp)/100))+",leftmoney="+str((Get_mmoney(susername)+rowb['money']*(sstrb[1]-sstrp)/100))+", cont="+str(rowb['cont'])+", regtop="+str(rowb['regtop'])+", regup="+str(rowb['regup'])+", regfrom="+str(rowb['regfrom'])+", adddate="+datetime.now("Y-m-d H:i:s")
                             exe=conn.cursor.execute(sqla)
             
                             sqla="update ssc_member set leftmoney=leftmoney"+str((rowb['money']*(sstrb[1]-sstrp)/100))+" where username="+str(susername)
@@ -681,41 +684,39 @@ def  autokj(n1,n2,n3,n4,n5,lid,issue,sign):
                 sqlb="update ssc_zbills set zt='1' where dan="+str(rowa['dan'])
                 exe=conn.cursor.execute(sqlb)
         
-        
-#投注佣金返利开始
-sql_jc = "select * from ssc_huodong where id=1"
-rs_jc = conn.cursor.execute(sql_jc)
-row_jc =conn.cursor.execute(rs_jc)
-if(row_jc['kg']==1):
-#每日领取一次
-sql_jc1 = "select * from ssc_record where uid_xj='uid_fx' and types='70' and  adddate like '%".date("Y-m-d")."%'"
-rs_jc1 = conn.cursor.execute(sql_jc1)
-row_jc1 =conn.cursor.execute(rs_jc1)
+# #投注佣金返利开始
+# sql_jc = "select * from ssc_huodong where id=1"
+# rs_jc = conn.cursor.execute(sql_jc)
+# row_jc =conn.cursor.execute(rs_jc)
+# #每日领取一次
+# if(row_jc['kg']==1):
+#     sql_jc1 = "select * from ssc_record where uid_xj='uid_fx' and types='70' and  adddate like '%"+datetime.now("Y-m-d")+"%'"
+#     rs_jc1 = conn.cursor.execute(sql_jc1)
+#     row_jc1 =conn.cursor.execute(rs_jc1)
+#
+# sql_jc2 = "select sum(zmoney) sum_tj from ssc_record where uid='uid_fx' and types='7' and  adddate like '%"+datetime.now("Y-m-d H:i:s")+"%'"
+# rs_jc2 = conn.cursor.execute(sql_jc2)
+# row_jc2 =conn.cursor.fetchall(rs_jc2)
 
-sql_jc2 = "select sum(zmoney) sum_tj from ssc_record where uid='uid_fx' and types='7' and  adddate like '%".date("Y-m-d")."%'"
-rs_jc2 = conn.cursor.execute(sql_jc2)
-row_jc2 =conn.cursor.fetchall(rs_jc2)
-
-
-if ( (not is_set(row_jc1['id'])) and row_jc2['sum_tj']>=500):
-    sqla = "select * from ssc_member WHERE username="+str(regup_fx)
-    rsa = conn.cursor.execute(sqla)
-    rowa =conn.cursor.execute(rsa)
-    leftmoney=rowa['leftmoney']
-    #帐变
-    sqlc = "select * from ssc_record order by id desc limit 1"
-    rsc = conn.cursor.execute(sqlc)
-    rowc =conn.cursor.execute(rsc)
-    dan1 = sprintf("%07s",base_convert(rowc['id']+1,10,36).upper())
-        lmoney=row_jc['jieguo']
-        leftmoney=rowa['leftmoney']+lmoney
-
-        sqla="insert into ssc_record set dan='".dan1."', uid='".rowa['id']."', username='".rowa['username']."', types='70', smoney=".lmoney.",leftmoney=".leftmoney.", regtop='".rowa['regtop']."', regup='".rowa['regup']."', regfrom='".rowa['regfrom']."', adddate='".date("Y-m-d H:i:s")."',uid_xj='uid_fx'"
-        exe=conn.cursor.execute(sqla)
-        sqlb="insert into ssc_savelist set uid='".rowa['id']."', username='".rowa['username']."', bank='投注佣金返利', bankid='0', cardno='', money=".lmoney.", sxmoney='0', rmoney=".lmoney.", adddate='".date("Y-m-d H:i:s")."',zt='1',types='70'"
-        exe=conn.cursor.execute(sqlb)
-        sql="update ssc_member set leftmoney =(leftmoney+".lmoney."),totalmoney=(totalmoney+".lmoney.") where id ='".rowa['id']."'"
-        exe=conn.cursor.execute(sql)
+# if ((not is_set(row_jc1['id'])) and row_jc2['sum_tj']>=500):
+#     sqla = "select * from ssc_member WHERE username="+str(regup_fx)
+#     rsa = conn.cursor.execute(sqla)
+#     rowa =conn.cursor.execute(rsa)
+#     leftmoney=rowa['leftmoney']
+#     #帐变
+#     sqlc = "select * from ssc_record order by id desc limit 1"
+#     rsc = conn.cursor.execute(sqlc)
+#     rowc =conn.cursor.execute(rsc)
+#     #dan1 = sprintf("%07s",base_convert(rowc['id']+1,10,36).upper())
+#     dan1=base_convert(rowc['id']+1,10,36).upper()
+#     lmoney=row_jc['jieguo']
+#     leftmoney=rowa['leftmoney']+lmoney
+#     sqla="insert into ssc_record set dan="+str(dan1)+", uid="+str(rowa['id'])+", username="+rowa['username']+", types='70', smoney="+lmoney+", leftmoney="+leftmoney+", regtop="+str(rowa['regtop']+", regup="+str(rowa['regup'])+", regfrom="+str(rowa['regfrom'])+", adddate="+str(datetime.now("Y-m-d H:i:s"))+", uid_xj=uid_fx'"
+#     exe=conn.cursor.execute(sqla)
+#     sqlb="insert into ssc_savelist set uid='".rowa['id']."', username='".rowa['username']."', bank='投注佣金返利', bankid='0', cardno='', money=".lmoney.", sxmoney='0', rmoney=".lmoney.", adddate='".date("Y-m-d H:i:s")."',zt='1',types='70'"
+#     exe=conn.cursor.execute(sqlb)
+#     sql="update ssc_member set leftmoney =(leftmoney+".lmoney."),totalmoney=(totalmoney+".lmoney.") where id ='".rowa['id']."'"
+#     exe=conn.cursor.execute(sql)
 
 '''
 ##投注佣金返利结束
@@ -798,3 +799,6 @@ def is_set(variable):
     :return: bool
     """
     return variable in locals() or variable in globals()
+
+if __name__ == "__main__":
+    autokj('4','7','7','5','8','1','20150410053',0)
