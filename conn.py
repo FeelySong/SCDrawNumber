@@ -2,7 +2,7 @@
 import mysql.connector
 from datetime import datetime
 import logging
-import autokj
+
 
 cnx=mysql.connector.connect(user='root',password='shl850325',host='littlemonk.net',database='shijue',charset='utf8')
 
