@@ -206,44 +206,44 @@ def main():
     """
 
     #360重庆时时彩
-    # ssc360_type='ssccq'
-    # db_ssc_type='1'
-    # jobs=[]
-    # for i in range(1):
-    #     p_360cq=multiprocessing.Process(name='360CQSSC',target=ssc360_drawnumber,args=(ssc360_type,db_ssc_type,))
-    #     jobs.append(p_360cq)
-    #     p_360cq.start()
-    #     p_360cq.join(timeout=10)
+    ssc360_type='ssccq'
+    db_ssc_type='1'
+    jobs=[]
+    for i in range(1):
+        p_360cq=multiprocessing.Process(name='360CQSSC',target=ssc360_drawnumber,args=(ssc360_type,db_ssc_type,))
+        jobs.append(p_360cq)
+        p_360cq.start()
+        p_360cq.join(timeout=10)
 
-    # #360江西时时彩
-    # ssc360_type='sscjx'
-    # db_ssc_type='4'
-    # jobs=[]
-    # for i in range(1):
-    #     p_360jx=multiprocessing.Process(name='360JXSSC',target=ssc360_drawnumber,args=(ssc360_type,db_ssc_type,))
-    #     jobs.append(p_360jx)
-    #     p_360jx.start()
-    #     p_360jx.join(timeout=10)
-    #
-    # #360 十一选五时时彩
-    # gd11_360_type='gd11'
-    # db_ssc_type='8'
-    # jobs=[]
-    # for i in range(1):
-    #     p_360gd11=multiprocessing.Process(name='360SYXW',target=gd11_360_drawnumber,args=(gd11_360_type,db_ssc_type,))
-    #     jobs.append(p_360gd11)
-    #     p_360gd11.start()
-    #     p_360gd11.join(timeout=10)
-    #
-    # #360 十一运夺金（山东11选5）
-    # yun11_360_type='yun11'
-    # db_ssc_type='6'
-    # jobs=[]
-    # for i in range(1):
-    #     p_360yun11=multiprocessing.Process(name='360YUN11',target=yun360_drawnumber,args=(yun11_360_type,db_ssc_type,))
-    #     jobs.append(p_360yun11)
-    #     p_360yun11.start()
-    #     p_360yun11.join(timeout=10)
+    #360江西时时彩
+    ssc360_type='sscjx'
+    db_ssc_type='4'
+    jobs=[]
+    for i in range(1):
+        p_360jx=multiprocessing.Process(name='360JXSSC',target=ssc360_drawnumber,args=(ssc360_type,db_ssc_type,))
+        jobs.append(p_360jx)
+        p_360jx.start()
+        p_360jx.join(timeout=10)
+
+    #360 十一选五时时彩
+    gd11_360_type='gd11'
+    db_ssc_type='8'
+    jobs=[]
+    for i in range(1):
+        p_360gd11=multiprocessing.Process(name='360SYXW',target=gd11_360_drawnumber,args=(gd11_360_type,db_ssc_type,))
+        jobs.append(p_360gd11)
+        p_360gd11.start()
+        p_360gd11.join(timeout=10)
+
+    #360 十一运夺金（山东11选5）
+    yun11_360_type='yun11'
+    db_ssc_type='6'
+    jobs=[]
+    for i in range(1):
+        p_360yun11=multiprocessing.Process(name='360YUN11',target=yun360_drawnumber,args=(yun11_360_type,db_ssc_type,))
+        jobs.append(p_360yun11)
+        p_360yun11.start()
+        p_360yun11.join(timeout=10)
 
     #重庆时时彩
     # ssc_type='cqssc'
@@ -256,14 +256,14 @@ def main():
     #     p_cq.join(timeout=10)
 
     #PLS
-    # ssc_type='p5'
-    # db_ssc_type='10'
-    # jobs=[]
-    # for i in range(1):
-    #     p_cq=multiprocessing.Process(name='PLS',target=pl5_drawnumber,args=(ssc_type,db_ssc_type,))
-    #     jobs.append(p_cq)
-    #     p_cq.start()
-    #     p_cq.join(timeout=10)
+    ssc_type='p5'
+    db_ssc_type='10'
+    jobs=[]
+    for i in range(1):
+        p_cq=multiprocessing.Process(name='PLS',target=pl5_drawnumber,args=(ssc_type,db_ssc_type,))
+        jobs.append(p_cq)
+        p_cq.start()
+        p_cq.join(timeout=10)
 
     #3D
     ssc_type='sd'
