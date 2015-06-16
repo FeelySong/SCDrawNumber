@@ -25,15 +25,24 @@ def kjdata(t2,cid,t1,t3):
                 n3=int(t2[4:6])
                 n4=int(t2[6:8])
                 n5=int(t2[8:10])
+            elif(cid=='5' or cid=='9'):
+                t4=','.join(t2)
+                n1=t4[0]
+                n2=t4[2]
+                n3=t4[4]
+                n4=0
+                n5=0
+                n1=int(n1)
+                n2=int(n2)
+                n3=int(n3)
             else:
                 t4=','.join(t2)
                 n1=t4[0]
                 n2=t4[2]
                 n3=t4[4]
-                if(cid!=5 and cid!=9):
-                    n4=t4[6]
-                    n5=t4[8]
-                print t4
+                n4=t4[6]
+                n5=t4[8]
+
                 n1=int(n1)
                 n2=int(n2)
                 n3=int(n3)
@@ -110,8 +119,11 @@ def cidname(x):
     return {
         '1': '重庆时时彩',
         '4': '江西时时彩',
+        '9': '福彩3D',
         '6': '十一运夺金',
         '8': '广东11选5',
+        '10': '排列三、五'
+
     }[x]
 
 '''

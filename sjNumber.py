@@ -23,6 +23,8 @@ CQreturndate=''     #重庆全局期号
 JXreturndate=''     #江西全局期号
 gd11_returndate=''  #11选5全局期号
 YUNreturndate=''    #11运夺金全局期号
+PLSreturnDate=''    #排列三全局期号
+fc3dreturndate=''   #福彩3d
 
 #360重庆时时彩
 def ssc360_drawnumber(ssc360_type,db_ssc_type):
@@ -150,6 +152,53 @@ def ssc_drawnumber(ssc_type,db_ssc_type):
             time.sleep(5)
             continue
 
+#3D
+def fc3d_drawnumber(ssc_type,db_ssc_type):
+    global fc3dreturndate
+    while True:
+        try:
+            #调用爬虫，获取开奖信息
+            assert isinstance(ssc_type, str)
+            draw_date,draw_code, draw_time_str= DrawNO.fc3d(ssc_type)
+            draw_code=draw_code.replace(",","")
+            if draw_code == '0' or draw_date <= fc3dreturndate:
+                pass
+            else:
+                fc3dreturndate=conn.kjdata(t2=draw_code,cid=db_ssc_type,t1=draw_date,t3=draw_time_str)
+                time.sleep(180)
+            # draw_time = datetime.strptime(draw_time_str, "%Y-%m-%d %H:%M")
+            # ms.IsInfoExists(SPname='ibc.dbo.IsInfoExists',lottery_type=db_ssc_type,lottery_num=draw_date,kjCodes=draw_code,kjtime=draw_time,addtime=datetime.now())
+            # time.sleep(1)
+            # ms.SYSPaiJiang(SPname='ibc.dbo.SYSPaiJiang',kjExpect=draw_date,kjTime=draw_time_str,kjCode=draw_code,ltType=db_ssc_type)
+            time.sleep(30)
+        except Exception as e:
+            print e
+            log.logging.error(e)
+            time.sleep(5)
+            continue
+
+#排列三、五
+def pl5_drawnumber(ssc_type,db_ssc_type):
+    global PLSreturnDate
+    while True:
+        try:
+            #调用爬虫，获取开奖信息
+            assert isinstance(db_ssc_type, str)
+            draw_date,draw_code, draw_time_str= DrawNO.PL5(ssc_type)
+            draw_code=draw_code.replace(",","")
+            #print draw_code,draw_date,draw_time_str
+            if draw_code == '0' or draw_date <= PLSreturnDate:
+                pass
+            else:
+                print draw_date
+                PLSreturnDate=conn.kjdata(t2=draw_code,cid=db_ssc_type,t1=draw_date,t3=draw_time_str)
+                time.sleep(180)
+            time.sleep(30)
+        except Exception as e:
+            print e
+            log.logging.error(e)
+            time.sleep(5)
+            continue
 
 def main():
     """
@@ -157,14 +206,14 @@ def main():
     """
 
     #360重庆时时彩
-    ssc360_type='ssccq'
-    db_ssc_type='1'
-    jobs=[]
-    for i in range(1):
-        p_360cq=multiprocessing.Process(name='360CQSSC',target=ssc360_drawnumber,args=(ssc360_type,db_ssc_type,))
-        jobs.append(p_360cq)
-        p_360cq.start()
-        p_360cq.join(timeout=10)
+    # ssc360_type='ssccq'
+    # db_ssc_type='1'
+    # jobs=[]
+    # for i in range(1):
+    #     p_360cq=multiprocessing.Process(name='360CQSSC',target=ssc360_drawnumber,args=(ssc360_type,db_ssc_type,))
+    #     jobs.append(p_360cq)
+    #     p_360cq.start()
+    #     p_360cq.join(timeout=10)
 
     # #360江西时时彩
     # ssc360_type='sscjx'
@@ -206,6 +255,25 @@ def main():
     #     p_cq.start()
     #     p_cq.join(timeout=10)
 
+    #PLS
+    # ssc_type='p5'
+    # db_ssc_type='10'
+    # jobs=[]
+    # for i in range(1):
+    #     p_cq=multiprocessing.Process(name='PLS',target=pl5_drawnumber,args=(ssc_type,db_ssc_type,))
+    #     jobs.append(p_cq)
+    #     p_cq.start()
+    #     p_cq.join(timeout=10)
+
+    #3D
+    ssc_type='sd'
+    db_ssc_type='9'
+    jobs=[]
+    for i in range(1):
+        p_cq=multiprocessing.Process(name='3d',target=fc3d_drawnumber,args=(ssc_type,db_ssc_type,))
+        jobs.append(p_cq)
+        p_cq.start()
+        p_cq.join(timeout=10)
 
 if __name__ == "__main__":
     main()
