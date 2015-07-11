@@ -1,8 +1,6 @@
 # coding=utf-8
 import mysql.connector
 from datetime import datetime
-import logging
-
 
 cnx=mysql.connector.connect(user='root',password='shl850325',host='littlemonk.net',database='shijue',charset='utf8')
 
@@ -13,9 +11,6 @@ query='select * from ssc_set where lid=1'
 cursor.execute(query)
 
 result=cursor.fetchone()
-
-logging.basicConfig(filename='/tmp/kaijiang.log',level=logging.INFO)
-logging.basicConfig(filename='/tmp/errkj.log',level=logging.ERROR)
 
 def kjdata(t2,cid,t1,t3):
         if(t2!=""):
@@ -118,12 +113,12 @@ def CallSP(n1,n2,n3,n4,n5,lid,issue,sign):
 def cidname(x):
     return {
         '1': '重庆时时彩',
+        '2': '全天乐乐彩',
         '4': '江西时时彩',
         '9': '福彩3D',
         '6': '十一运夺金',
         '8': '广东11选5',
         '10': '排列三、五'
-
     }[x]
 
 '''
@@ -197,34 +192,34 @@ def kjdata360(t2,cid,t1,t3):
         return t1
 '''
 
-import subprocess
-import os
-#now_time=time.localtime()
-def php(n1,n2,n3,n4,n5,cid,t1,zt):
-    #t1=str(now_time.tm_year)+t1[2:6]+t1[7:10]
-    print t1
-    para=n1+' '+n2+' '+n3+' '+n4+' '+n5+' '+cid+' '+t1+' '+zt
-    print 'this is php',para
-    para1='php -f /Users/Feely/Documents/Develop/PHP/autokj/autokj.php '
-    # open process
-    p = subprocess.Popen([para1+para], shell=True,stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True)
-
-    print p.stdout.read()
-    # read output
-    o = p.communicate()[0]
-    print 'exe php:'+o
-    logging.info('Execute PaiJiang Programe:'+o)
-    # kill process
-    try:
-        os.kill(p.pid, os.signal.SIGTERM)
-    except:
-        pass
-    # return
-    return o
-
-#autokj($n1,$n2,$n3,$n4,$n5,$cid,$t1,1);
-# p2='58199'
-# p1='140701089'
-# p3=datetime.now()
+# import subprocess
+# import os
+# #now_time=time.localtime()
+# def php(n1,n2,n3,n4,n5,cid,t1,zt):
+#     #t1=str(now_time.tm_year)+t1[2:6]+t1[7:10]
+#     print t1
+#     para=n1+' '+n2+' '+n3+' '+n4+' '+n5+' '+cid+' '+t1+' '+zt
+#     print 'this is php',para
+#     para1='php -f /Users/Feely/Documents/Develop/PHP/autokj/autokj.php '
+#     # open process
+#     p = subprocess.Popen([para1+para], shell=True,stdout=subprocess.PIPE, stdin=subprocess.PIPE, stderr=subprocess.STDOUT, close_fds=True)
 #
-# kjdata(t2=p2,cid='1',t1=p1,t3=p3)
+#     print p.stdout.read()
+#     # read output
+#     o = p.communicate()[0]
+#     print 'exe php:'+o
+#     logging.info('Execute PaiJiang Programe:'+o)
+#     # kill process
+#     try:
+#         os.kill(p.pid, os.signal.SIGTERM)
+#     except:
+#         pass
+#     # return
+#     return o
+#
+# #autokj($n1,$n2,$n3,$n4,$n5,$cid,$t1,1);
+# # p2='58199'
+# # p1='140701089'
+# # p3=datetime.now()
+# #
+# # kjdata(t2=p2,cid='1',t1=p1,t3=p3)
