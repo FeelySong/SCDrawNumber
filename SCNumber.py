@@ -221,7 +221,7 @@ def sc1fc_drawnumber(db_ssc_type):
             zerotime = datetime.datetime(year=zeroyear, month=zeromonth, day=zeroday, hour=0, minute=0, second=0)
             zerotime1 = datetime.datetime.now()
             datetoday= time.strftime("%y%m%d")
-            dateissue = str(int((zerotime1 - zerotime).seconds / 300))
+            dateissue = str(int((zerotime1 - zerotime).seconds / 300)).zfill(3)
             draw_date=datetoday+dateissue
             draw_code = str(random.randint(10000,99999))
             # draw_code=draw_code_tmp[0]+','+draw_code_tmp[1]+','+draw_code_tmp[2]+','+draw_code_tmp[3]+','+draw_code_tmp[4]
