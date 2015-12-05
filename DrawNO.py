@@ -88,14 +88,14 @@ def CQ360(ssc360_type):
     ## xpath analyze
     d = etree.HTML(ssc_html)
     #Draw DateNO
-    draw_date_tmp = ''.join(d.xpath(u'/html/body/div[1]/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/h3/em/text()'))
+    draw_date_tmp = ''.join(d.xpath(u'/html/body/div[1]/div[3]/div[3]/div[2]/div[2]/div[1]/div[1]/h3/em/text()'))
     draw_date=str(now_time.tm_year)+draw_date_tmp
     #drow Number
-    number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[1]/text()'))+','
-    number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[2]/text()'))+','
-    number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[3]/text()'))+','
-    number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[4]/text()'))+','
-    number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[5]/text()'))
+    number=number+''.join(d.xpath(u'/html/body/div[1]/div[3]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[1]/text()'))+','
+    number=number+''.join(d.xpath(u'/html/body/div[1]/div[3]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[2]/text()'))+','
+    number=number+''.join(d.xpath(u'/html/body/div[1]/div[3]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[3]/text()'))+','
+    number=number+''.join(d.xpath(u'/html/body/div[1]/div[3]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[4]/text()'))+','
+    number=number+''.join(d.xpath(u'/html/body/div[1]/div[3]/div[3]/div[2]/div[2]/div[1]/div[1]/div/ul/li[5]/text()'))
     draw_code=number
     #Draw Time
     draw_time=datetime.now().strftime("%Y-%m-%d %H:%M")
@@ -221,17 +221,17 @@ def fc3d(ssc360_type):
     ## xpath analyze
     d = etree.HTML(ssc_html)
     #Draw DateNO
-    draw_date_tmp = ''.join(d.xpath(u'/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div[1]/h3/span/b/text()'))
+    draw_date_tmp = ''.join(d.xpath(u'/html/body/div[1]/div[3]/div[2]/div[2]/div[2]/div[2]/div[1]/h3/span/b/text()'))
     draw_date=draw_date_tmp[2:]
     #drow Number
-    number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div[1]/div/ul/li[1]/text()'))+','
-    number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div[1]/div/ul/li[2]/text()'))+','
-    number=number+''.join(d.xpath(u'/html/body/div[1]/div[2]/div[2]/div[2]/div[2]/div[2]/div[1]/div/ul/li[3]/text()'))
+    number=number+''.join(d.xpath(u'/html/body/div[1]/div[3]/div[2]/div[2]/div[2]/div[2]/div[1]/div/ul/li[1]/text()'))+','
+    number=number+''.join(d.xpath(u'/html/body/div[1]/div[3]/div[2]/div[2]/div[2]/div[2]/div[1]/div/ul/li[2]/text()'))+','
+    number=number+''.join(d.xpath(u'/html/body/div[1]/div[3]/div[2]/div[2]/div[2]/div[2]/div[1]/div/ul/li[3]/text()'))
     draw_code=number
     #Draw Time
     draw_time=datetime.now().strftime("%Y-%m-%d %H:%M")
     print draw_date,draw_code,datetime.now()
-    if (number=='?,?,?,?,?'):
+    if (number=='--,--,--'):
         number='0'
     log.logging.info('360时时彩'+'   '+url)
     log.logging.info('date:%s code:%s curtime:%s',draw_date,draw_code,datetime.now())

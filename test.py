@@ -12,3 +12,4 @@ dateissue = str(int((zerotime1 - zerotime).seconds / 60))
 draw_date=datetoday+dateissue
 draw_code = str(random.randint(10000,99999))
 print draw_date,draw_code,datetime.datetime.now()
+
